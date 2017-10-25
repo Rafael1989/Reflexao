@@ -14,5 +14,9 @@ public class MapaDeClasses {
             throw new RuntimeException("Chave inválida");
         }
     }
+    
+    public Object getObject(String classe) throws Exception {
+    	return getClass(classe).newInstance();
+    }
 
 }
