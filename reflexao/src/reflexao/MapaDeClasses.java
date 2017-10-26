@@ -1,5 +1,6 @@
 package reflexao;
 
+import java.lang.reflect.Constructor;
 import java.util.Map;
 
 public class MapaDeClasses {
@@ -17,6 +18,15 @@ public class MapaDeClasses {
     
     public Object getObject(String classe) throws Exception {
     	return getClass(classe).newInstance();
+    }
+    
+    public Object getObject(String chave, Object[] params) throws NoSuchMethodException, SecurityException, Exception {
+    	Class<?>[] tiposConstrutor = new Class<?>[params.length];
+        for(int i=0; i<tiposConstrutor.length; i++){
+            tiposConstrutor[i] = params[i].getClass();
+        }
+        Constructor<?> c = getClass(chave).getConstructor(tiposConstrutor); 
+        return c.newInstance(params);
     }
 
 }
