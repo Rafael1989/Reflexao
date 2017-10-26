@@ -2,6 +2,7 @@ package reflexao;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,19 @@ public class MapaDeClasses {
 			map.put(f.getName(), f.get(obj));
 		}
 		return map;
+	}
+
+	public static void chamarTestes(Object obj) throws Exception {
+
+		Class<?> clazz = obj.getClass();
+
+		for (Method m : clazz.getMethods()) {
+			if (m.getName().startsWith("test") && m.getReturnType() == void.class
+					&& m.getParameterTypes().length == 0) {
+
+				m.invoke(obj);
+			}
+		}
 	}
 
 }
