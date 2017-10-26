@@ -2,6 +2,7 @@ package reflexao;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class MapaDeClasses {
 		return map;
 	}
 
-	public static void chamarTestes(Object obj) throws Exception {
+	public static void chamarTestes(Object obj) throws IllegalAccessException, IllegalArgumentException {
 
 		Class<?> clazz = obj.getClass();
 
@@ -50,7 +51,11 @@ public class MapaDeClasses {
 			if (m.getName().startsWith("test") && m.getReturnType() == void.class
 					&& m.getParameterTypes().length == 0) {
 
-				m.invoke(obj);
+				try {
+					m.invoke(obj);
+				} catch (InvocationTargetException e) {
+					e.getTargetException();
+				}
 			}
 		}
 	}
